@@ -2,7 +2,7 @@ use std::fs::File;
 use std::io::{BufRead, BufReader};
 
 pub fn run() {
-    let file = File::open("input").expect("File not found");
+    let file = File::open("input/day1").expect("File not found");
 
     let reader = BufReader::new(file);
     let mut total = 0;
