@@ -25,7 +25,9 @@ fn parse_stacks(file: File) -> Vec<Vec<char>> {
                 stacks[stack].push(content);
             }
         }
-        line = reader.next().expect("No lines could be read").ok().unwrap_or_default();
+        if let Some(Ok(next)) = reader.next() {
+            line = next;
+        } else { break }
     }
     println!("Stacks: {:?}", stacks);
     // Skip line with stack numbers and blank line
@@ -44,7 +46,9 @@ fn parse_stacks(file: File) -> Vec<Vec<char>> {
             let item = stacks[from - 1].pop().expect("No item found");
             stacks[to - 1].push(item);
         }
-        line = reader.next().expect("No lines could be read").unwrap_or_default();
+        if let Some(Ok(next)) = reader.next() {
+            line = next;
+        } else { break }
     }
 
     stacks
