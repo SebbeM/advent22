@@ -6,6 +6,11 @@ pub fn run() {
 
     let mut stacks: Vec<Vec<char>> = parse_stacks(file);
     println!("Stacks after: {:?}", stacks);
+    let mut tops = String::new();
+    for stack in stacks {
+        tops.push(*stack.last().expect("Could not get value"));
+    }
+    println!("Tops: {}", tops);
 }
 
 fn parse_stacks(file: File) -> Vec<Vec<char>> {
@@ -22,7 +27,7 @@ fn parse_stacks(file: File) -> Vec<Vec<char>> {
             let string_index = 1 + stack * 4;
             let content = line.chars().nth(string_index).unwrap_or_default();
             if content != ' ' {
-                stacks[stack].push(content);
+                stacks[stack].insert(0, content);
             }
         }
         if let Some(Ok(next)) = reader.next() {
