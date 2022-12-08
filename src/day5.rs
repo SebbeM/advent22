@@ -1,6 +1,8 @@
 use std::fs::File;
 use std::io::{BufRead, BufReader, Read, Seek, Split};
 
+const POWER_LEVEL: i32 = 9001;
+
 pub fn run() {
     let file = File::open("input/day5").expect("File not found");
 
@@ -41,13 +43,20 @@ fn parse_stacks(file: File) -> Vec<Vec<char>> {
 
     while line.contains("move"){
         let args = line.split(" ").collect::<Vec<&str>>();
-        let amount: usize = args[1].parse().unwrap();
+        let mut amount: usize = args[1].parse().unwrap();
         let from: usize = args[3].parse().unwrap();
         let to: usize = args[5].parse().unwrap();
 
-        for _ in 0..amount {
-            let item = stacks[from - 1].pop().expect("No item found");
-            stacks[to - 1].push(item);
+        if POWER_LEVEL > 9000 {
+            amount = &stacks[from -1].len() - amount;
+            let mut items = stacks[from - 1].split_off(amount);
+            println!("Moving {:?}", items);
+            stacks[to - 1].append(&mut items);
+        } else {
+            for _ in 0..amount {
+                let item = stacks[from - 1].pop().expect("No item found");
+                stacks[to - 1].push(item);
+            }
         }
         if let Some(Ok(next)) = reader.next() {
             line = next;
