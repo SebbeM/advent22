@@ -33,14 +33,12 @@ fn parse_stacks(file: File) -> Vec<Vec<char>> {
     // Skip line with stack numbers and blank line
     line = reader.next().expect("No lines could be read").ok().unwrap_or_default();
     line = reader.next().expect("No lines could be read").ok().unwrap_or_default();
-    println!("{}", line);
 
     while line.contains("move"){
         let args = line.split(" ").collect::<Vec<&str>>();
         let amount: usize = args[1].parse().unwrap();
         let from: usize = args[3].parse().unwrap();
         let to: usize = args[5].parse().unwrap();
-        println!("Moving {} from {} to {}", amount, from, to);
 
         for _ in 0..amount {
             let item = stacks[from - 1].pop().expect("No item found");
