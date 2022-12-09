@@ -14,10 +14,11 @@ pub fn run() {
 fn find_start(mut string: String) -> Option<usize> {
     let mut char_buf = Vec::new();
     let mut chars = string.chars();
+    let marker_len = 14;
     for i in 0..string.len() {
         let char = chars.next().expect("Could not read char");
         char_buf.insert(0, char);
-        char_buf.truncate(4);
+        char_buf.truncate(marker_len);
         println!("Char buffer: {:?}", char_buf);
         let mut has_double = false;
         for pick in &char_buf {
@@ -32,7 +33,7 @@ fn find_start(mut string: String) -> Option<usize> {
                 break
             }
         }
-        if !has_double && char_buf.len() == 4 {
+        if !has_double && char_buf.len() == marker_len {
             return Some(i + 1);
         }
     }
