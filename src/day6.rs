@@ -12,14 +12,29 @@ pub fn run() {
 }
 
 fn find_start(mut string: String) -> Option<usize> {
-    let mut char_buf = vec!['c', 'c', 'c', 'c'];
+    let mut char_buf = Vec::new();
     let mut chars = string.chars();
     for i in 0..string.len() {
         let char = chars.next().expect("Could not read char");
-        char_buf.push(char);
+        char_buf.insert(0, char);
         char_buf.truncate(4);
-        print!("{}", char);
-        return Some(i);
+        println!("Char buffer: {:?}", char_buf);
+        let mut has_double = false;
+        for pick in &char_buf {
+            let mut count = 0;
+                for comp in &char_buf {
+                if pick == comp {
+                    count += 1;
+                }
+            }
+            if count > 1 {
+                has_double = true;
+                break
+            }
+        }
+        if !has_double && char_buf.len() == 4 {
+            return Some(i + 1);
+        }
     }
     None
 }
